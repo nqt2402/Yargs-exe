@@ -9,9 +9,9 @@ const addTask = (title, description, type) => {
     //  Tạo đối tượng task
     const task = {
         id: Math.round(Math.random() * 10000).toString(),
-        title: title,
-        description: description,
-        type: type,
+        title,
+        description,
+        type,
     };
     //  Thêm task vào danh sách
     allTasks.push(task);
@@ -43,9 +43,9 @@ const deleteTask = (id) => {
 
 /* UPDATE TASK */
 const updateTask = (id, title, description, type) => {
-    const allTask = fetchTasks();
+    const allTasks = fetchTasks();
 
-    const index = allTask.findIndex((task) => {
+    const index = allTasks.findIndex((task) => {
         return task.id === id;
     });
 
@@ -54,38 +54,37 @@ const updateTask = (id, title, description, type) => {
         return;
     }
 
-    const updatedTask = { title, description, type };
+    const updatedTask = { id, title, description, type };
 
-    addTask.splice(index, 1, updatedTask);
+    allTasks.splice(index, 1, updatedTask);
 
-    console.log(chalk.green('Successfully !'));
-
+    fs.writeFileSync('task.json', JSON.stringify(allTasks));
 };
 
 /* VIEW ALL TASK */
 
 const viewAllTasks = () => {
-    return fetchTasks();
+    const allTasks = fetchTasks();
+    console.log(chalk.green('allTasks--->'), allTasks);
 }
 
 /* VIEW TASK BY DETAIL */
-
+//  BUG
 const viewTaskByDetail = (id) => {
     const allTasks = fetchTasks();
+    console.log('allTasks', allTasks);
+    const taskByID = allTasks.find((task) => task.id === id);
+    console.log('taskByID', taskByID);
 
-    const taskByID = allTasks.find((task) => {
-        return task.id === id;
-    })
+    // if (!taskByID) {
+    //     console.log(chalk.red('Task not found !'));
+    //     return;
+    // }
 
-    if (!taskByID) {
-        console.log(chalk.red('Task not found !'));
-        return;
-    }
-
-    return (
-        console.log(chalk.green('Successfully !')),
-        taskByID
-    )
+    // return (
+    //     console.log(chalk.green('Successfully !')),
+    //     taskByID
+    // )
 }
 
 /* VIEW TASK BY TYPE */
@@ -96,13 +95,13 @@ const viewTasksByType = (type) => {
         return task.type === type
     })
 
-    if (!tasksByType) {
+    if (tasksByType == '') {
         console.log(chalk.red('Task not found !'));
         return;
     }
 
     console.log(chalk.green('Successfully !'));
-    return tasksByType;
+    console.log(chalk.green('tasksByType'), tasksByType);
 }
 
 /* FETCH TASK */

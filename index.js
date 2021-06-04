@@ -1,5 +1,6 @@
 const yargs = require('yargs');
 const { addTask, deleteTask, updateTask, viewAllTasks, viewTaskByDetail, viewTasksByType } = require('./task');
+
 //  command add task
 yargs.command({
     command: 'add',
@@ -8,7 +9,7 @@ yargs.command({
         description: { type: 'string', demandOption: true },
         type: { type: 'string', demandOption: true },
     },
-    handler: function (args) {
+    handler: (args) => {
         addTask(args.title, args.description, args.type)
     }
 })
@@ -19,10 +20,11 @@ yargs.command({
     builder: {
         id: { type: 'string' },
     },
-    handler: function (args) {
+    handler: (args) => {
         deleteTask(args.id);
     }
 })
+
 //  command update task
 yargs.command({
     command: 'update',
@@ -32,7 +34,7 @@ yargs.command({
         description: { type: 'string', },
         type: { type: 'string' },
     },
-    handler: function (args) {
+    handler: (args) => {
         updateTask(args.id, args.title, args.description, args.type);
     }
 })
@@ -40,30 +42,30 @@ yargs.command({
 //  command view all tasks
 yargs.command({
     command: 'list',
-    builder: {
-        // no need
-    },
-    handler: function () {
+    builder: {}, // no need 
+    handler: () => {
         viewAllTasks();
     }
 })
+
 //  command view task detail
 yargs.command({
     command: 'detail',
     builder: {
         id: { id: 'string' },
     },
-    handler: function (args) {
+    handler: (args) => {
         viewTaskByDetail(args.id);
     }
 })
+
 //  command view task by type
 yargs.command({
     command: 'type',
     builder: {
         type: { type: 'string' },
     },
-    handler: function (args) {
+    handler: (args) => {
         viewTasksByType(args.type);
     }
 })
