@@ -62,43 +62,36 @@ const updateTask = (id, title, description, type) => {
 };
 
 /* VIEW ALL TASK */
-
 const viewAllTasks = () => {
     const allTasks = fetchTasks();
-    console.log(chalk.green('allTasks--->'), allTasks);
+    return console.log(chalk.green('allTasks--->'), allTasks);
 }
 
 /* VIEW TASK BY DETAIL */
-//  BUG
 const viewTaskByDetail = (id) => {
     const allTasks = fetchTasks();
-    console.log('allTasks', allTasks);
-    const taskByID = allTasks.find((task) => task.id === id);
-    console.log('taskByID', taskByID);
 
-    // if (!taskByID) {
-    //     console.log(chalk.red('Task not found !'));
-    //     return;
-    // }
+    const taskByID = allTasks.find(task => task.id === id.toString());
 
-    // return (
-    //     console.log(chalk.green('Successfully !')),
-    //     taskByID
-    // )
+    if (taskByID) {
+        console.log(chalk.green('Successfully !'));
+        console.log(chalk.green('taskByID'), taskByID);
+        return;
+    }
+
+    console.log(chalk.red('Task not found !'));
 }
 
 /* VIEW TASK BY TYPE */
 const viewTasksByType = (type) => {
     const allTasks = fetchTasks();
 
-    const tasksByType = allTasks.filter((task) => {
-        return task.type === type
-    })
+    const tasksByType = allTasks.filter(task => task.type === type);
 
     if (tasksByType == '') {
         console.log(chalk.red('Task not found !'));
         return;
-    }
+    };
 
     console.log(chalk.green('Successfully !'));
     console.log(chalk.green('tasksByType'), tasksByType);
